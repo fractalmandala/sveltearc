@@ -16,3 +16,12 @@
 	background: var(--theme-color)
 .status-dot[data-status='in-progress']
 	background: var(--bg-sunken)
+
+.card
+	svg.card-arrow
+		margin-top: auto
+		color: var(--theme-color)
+		transition: transform var(--motionout3)
+	&:hover
+		svg.card-arrow
+			transform: translateX(2rem)

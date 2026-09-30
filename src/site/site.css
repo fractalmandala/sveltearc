@@ -107,35 +107,39 @@
 }
 
 .card {
-	display: block;
+	display: flex;
+	flex-direction: column;
 	padding: var(--space-5);
 	border: 1px solid var(--border);
-	border-radius: var(--radius-panel);
-	background: var(--surface);
-	box-shadow: var(--shadow-resting);
+	border-radius: 6px;
+	background: var(--bg-raised);
+	box-shadow: var(--shadow-raised);
 }
 
 .card:hover {
 	border-color: var(--border-strong);
-	box-shadow: var(--shadow-raised);
+	box-shadow: var(--shadow-resting);
 }
 
 .card h3 {
 	margin: 0;
 	font-size: var(--text-lg);
+	text-transform: capitalize;
+	font-weight: 600;
 }
 
 .card p {
 	margin: var(--space-2) 0 0;
 	color: var(--text-secondary);
-	font-size: var(--text-sm);
+	font-size: var(--text-md);
+	line-height: 1.5;
 }
 
 .panel {
 	padding: var(--space-6);
-	border: 1px solid var(--border);
-	border-radius: var(--radius-panel);
-	background: var(--surface);
+	border: 1px solid var(--border-strong);
+	border-radius: 8px;
+	background: var(--bg-sunken);
 }
 
 .panel + .panel {
@@ -146,9 +150,7 @@
 	margin: 0 0 var(--space-4);
 	font-size: var(--text-sm);
 	font-weight: 600;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--text-muted);
+	color: var(--text-primary);
 }
 
 .demo-grid {
