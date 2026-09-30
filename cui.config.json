@@ -1,5 +1,4 @@
 {
-  "$schema": "./scripts/schemas/cui-config.schema.json",
   "name": "arcui-port",
   "version": "1.0.0",
   "tokens": [],
