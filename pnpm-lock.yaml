@@ -17,9 +17,6 @@ importers:
       bits-ui:
         specifier: ^2.19.3
         version: 2.19.3(@internationalized/date@3.12.4)(@sveltejs/kit@2.70.3(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.1)(vite@8.3.1(sass@1.105.0)))(svelte@5.57.1)(typescript@6.0.3)(vite@8.3.1(sass@1.105.0)))(svelte@5.57.1)
-      marked:
-        specifier: ^18.0.14
-        version: 18.0.14
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^7.0.1
@@ -36,6 +33,9 @@ importers:
       fractalpop:
         specifier: ^0.2.0
         version: 0.2.0
+      marked:
+        specifier: ^18.0.14
+        version: 18.0.14
       sass:
         specifier: ^1.105.0
         version: 1.105.0
