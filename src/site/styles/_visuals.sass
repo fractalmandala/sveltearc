@@ -5,3 +5,14 @@
 
 .logo-row
 	gap: 0.5rem
+
+.status-dot
+	width: 7px
+	height: 7px
+	border-radius: var(--radius-pill)
+	background: var(--border-strong)
+
+.status-dot[data-status='ported']
+	background: var(--theme-color)
+.status-dot[data-status='in-progress']
+	background: var(--bg-sunken)

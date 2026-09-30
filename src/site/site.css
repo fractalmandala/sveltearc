@@ -60,21 +60,6 @@
 	letter-spacing: normal;
 }
 
-.status-dot {
-	width: 7px;
-	height: 7px;
-	border-radius: var(--radius-pill);
-	background: var(--border-strong);
-}
-
-.status-dot[data-status='ported'] {
-	background: var(--success);
-}
-
-.status-dot[data-status='in-progress'] {
-	background: var(--warning);
-}
-
 .main {
 	padding-block: var(--space-10);
 }
