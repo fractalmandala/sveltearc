@@ -55,6 +55,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"check:port": "node scripts/check-port.mjs",
+		"barrel": "node scripts/gen-barrel.mjs",
 		"lint:agent": "node scripts/cui-lint.mjs",
 		"lint:agent:json": "node scripts/cui-lint.mjs --json",
 		"package": "svelte-package",

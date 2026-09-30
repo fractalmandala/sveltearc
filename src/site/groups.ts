@@ -43,39 +43,73 @@ export const GROUP_BY_ID: Record<string, UiGroup> = Object.fromEntries(
 );
 
 /**
- * Frozen component → group-id map. The migration script and future scaffolds read this.
- * Per Task 7 §3; covers every slug in `$site/docs` today (35).
+ * Frozen component → group-id map — the full uiarc taxonomy (all 98 components).
+ * Lead-owned: pre-frozen so sprint lanes never edit this file. A component not
+ * ported yet is simply not rendered; its entry is ready when it lands.
  */
 export const COMPONENT_GROUP: Record<string, string> = {
 	// buttons
 	button: 'buttons',
+	'action-button': 'buttons',
 	'split-button': 'buttons',
 	'copy-button': 'buttons',
+	'confirm-morph': 'buttons',
 	'theme-switch': 'buttons',
 	// gestures
 	'swipe-actions': 'gestures',
+	'hold-to-confirm': 'gestures',
 	// menus
 	'dropdown-menu': 'menus',
+	'context-menu': 'menus',
+	'user-menu': 'menus',
+	'command-palette': 'menus',
 	// text fields
 	input: 'text-fields',
 	textarea: 'text-fields',
 	'password-field': 'text-fields',
 	'search-field': 'text-fields',
+	'inline-edit': 'text-fields',
+	// special inputs
+	'number-field': 'special-inputs',
+	'phone-input': 'special-inputs',
+	'tag-input': 'special-inputs',
+	'mention-input': 'special-inputs',
+	'shortcut-recorder': 'special-inputs',
+	'otp-input': 'special-inputs',
 	// selects
 	select: 'selects',
+	combobox: 'selects',
+	'multi-select': 'selects',
+	'chip-group': 'selects',
 	// toggles
 	checkbox: 'toggles',
 	'radio-group': 'toggles',
+	'radio-cards': 'toggles',
+	'billing-toggle': 'toggles',
 	switch: 'toggles',
 	'segmented-control': 'toggles',
 	// sliders
 	slider: 'sliders',
+	// pickers
+	calendar: 'pickers',
+	'date-picker': 'pickers',
+	'date-range-picker': 'pickers',
+	'time-picker': 'pickers',
+	'color-picker': 'pickers',
+	// editors
+	'rich-text-editor': 'editors',
+	'signature-pad': 'editors',
+	'file-dropzone': 'editors',
+	'file-upload': 'editors',
 	// navigation
 	tabs: 'navigation',
 	breadcrumb: 'navigation',
+	pagination: 'navigation',
 	// expand
 	'scroll-area': 'expand',
 	accordion: 'expand',
+	'expandable-card': 'expand',
+	'resizable-panels': 'expand',
 	// overlays
 	dialog: 'overlays',
 	drawer: 'overlays',
@@ -85,16 +119,53 @@ export const COMPONENT_GROUP: Record<string, string> = {
 	tooltip: 'overlays',
 	// messages
 	alert: 'messages',
+	toast: 'messages',
+	'toast-stack': 'messages',
+	'announcement-bar': 'messages',
 	'notification-center': 'messages',
 	// progress
 	progress: 'progress',
 	skeleton: 'progress',
+	stepper: 'progress',
+	'usage-meter': 'progress',
 	// avatars
 	avatar: 'avatars',
+	'avatar-group': 'avatars',
 	badge: 'avatars',
 	// cards
 	card: 'cards',
+	'metric-card': 'cards',
 	'empty-state': 'cards',
+	// charts
+	'line-chart': 'charts',
+	'bar-chart': 'charts',
+	'donut-chart': 'charts',
+	streamgraph: 'charts',
+	'brush-chart': 'charts',
+	'waffle-chart': 'charts',
+	'slope-chart': 'charts',
+	sparkline: 'charts',
+	gauge: 'charts',
+	'activity-heatmap': 'charts',
+	'animated-counter': 'charts',
+	ridgeline: 'charts',
+	treemap: 'charts',
+	// tables
+	'sortable-data-table': 'tables',
+	'tree-view': 'tables',
+	'filter-toolbar': 'tables',
+	'code-block': 'tables',
+	// activity
+	timeline: 'activity',
+	'comment-thread': 'activity',
+	'chat-thread': 'activity',
+	// media
+	'image-compare': 'media',
+	carousel: 'media',
 	// text effects
-	'text-reveal': 'text-effects'
+	'text-reveal': 'text-effects',
+	'in-view-title': 'text-effects',
+	'text-morph': 'text-effects',
+	'text-shimmer': 'text-effects',
+	'slot-text': 'text-effects'
 };
