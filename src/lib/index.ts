@@ -29,6 +29,7 @@ export { Select } from './components/select/index';
 export { Skeleton } from './components/skeleton/index';
 export { Slider } from './components/slider/index';
 export { default as SplitButton } from './components/split-button/split-button.svelte';
+export { Stepper } from './components/stepper/index';
 export { SwipeActions, SwipeActionsRow } from './components/swipe-actions/index';
 export { default as Switch } from './components/switch/switch.svelte';
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './components/tabs/index';

@@ -1,0 +1,76 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/stepper/stepper.tsx",
+			"registry/components/stepper/stepper.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/stepper/stepper.svelte",
+			"src/lib/components/stepper/stepper.types.ts",
+			"src/lib/components/stepper/stepper.module.css"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["steps", "current", "orientation", "onStepSelect", "details", "compact", "label", "completeLabel", "class"],
+			"bindings": [],
+			"callbacks": ["onStepSelect"],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational indicator driven by `current`; no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": ["getComputedStyle (inside the keydown handler only)"],
+		"guards": ["keydown handler runs in the browser only"],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates",
+			"status": "passed",
+			"evidence": "stepper: 0 errors, 0 warnings."
+		},
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "passed",
+			"evidence": "vite build completed."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-port: statuses, glyphs, connector fills, and the live caption render statically (the connector fill is set as a static transform). The glyph pop/check draw, connector spring, current-step ring, and text-swap height animation are Phase 2.",
+		"No Bits UI primitive; interactive mode is a plain `nav` with roving focus over reachable steps."
+	]
+}
