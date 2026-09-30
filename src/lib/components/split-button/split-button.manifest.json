@@ -1,0 +1,34 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "split-button",
+		"files": ["registry/components/split-button/split-button.tsx"]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/split-button/split-button.svelte",
+			"src/lib/components/split-button/split-button.types.ts",
+			"src/lib/components/split-button/split-button.module.css"
+		]
+	},
+	"dependencies": {
+		"runtime": ["bits-ui", "@lucide/svelte"],
+		"styles": ["src/lib/components/split-button/split-button.module.css"]
+	},
+	"dataFlow": {
+		"props": ["label", "actions", "onClick", "disabled", "icon", "variant"]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: primary slot width is auto/measured statically and label renders plain string without character morphing. Phase 2 wires motionTokens.spring.morph on label changes and MorphText letter diffing."
+	]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "./scripts/schemas/cui-config.schema.json",
+  "name": "arcui-port",
+  "version": "1.0.0",
+  "tokens": [],
+  "anatomyDir": "pipeline/anatomy",
+  "stylesDir": "src/lib",
+  "ignorePaths": [
+    "src/lib/foundation.css"
+  ],
+  "componentsDir": "src/lib/components",
+  "routesDir": "src/routes",
+  "rules": {
+    "cui/token-purity": "warn",
+    "cui/no-in-component-styles": "error",
+    "cui/no-component-restyle": "error",
+    "cui/strict-props-and-slots": "error"
+  },
+  "defaultContract": {
+    "allowStyleProperties": [
+      "margin",
+      "margin-top",
+      "margin-bottom",
+      "margin-left",
+      "margin-right",
+      "width",
+      "max-width",
+      "min-width",
+      "height",
+      "max-height",
+      "min-height",
+      "flex",
+      "flex-grow",
+      "flex-shrink",
+      "flex-basis",
+      "align-self",
+      "justify-self",
+      "grid-column",
+      "grid-row",
+      "order",
+      "z-index"
+    ],
+    "denyStyleProperties": [
+      "padding",
+      "padding-top",
+      "padding-bottom",
+      "padding-left",
+      "padding-right",
+      "background",
+      "background-color",
+      "border",
+      "border-color",
+      "border-width",
+      "border-style",
+      "border-radius",
+      "box-shadow",
+      "color",
+      "font-family",
+      "font-size",
+      "font-weight",
+      "line-height"
+    ]
+  },
+  "spacingScale": {
+    "4px": "var(--space-1)",
+    "8px": "var(--space-2)",
+    "12px": "var(--space-3)",
+    "16px": "var(--space-4)",
+    "20px": "var(--space-5)",
+    "24px": "var(--space-6)",
+    "32px": "var(--space-7)",
+    "40px": "var(--space-8)"
+  },
+  "radiusScale": {
+    "0px": "var(--radius-none)",
+    "2px": "var(--radius-xs)",
+    "4px": "var(--radius-sm)",
+    "6px": "var(--radius-md)",
+    "8px": "var(--radius-lg)",
+    "12px": "var(--radius-xl)",
+    "9999px": "var(--radius-full)"
+  }
+}

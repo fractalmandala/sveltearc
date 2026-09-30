@@ -1,0 +1,35 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "hover-card",
+		"files": ["registry/components/hover-card/hover-card.tsx"]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/hover-card/hover-card.svelte",
+			"src/lib/components/hover-card/hover-card-profile.svelte",
+			"src/lib/components/hover-card/hover-card.types.ts",
+			"src/lib/components/hover-card/hover-card.module.css"
+		]
+	},
+	"dependencies": {
+		"runtime": ["bits-ui"],
+		"styles": ["src/lib/components/hover-card/hover-card.module.css"]
+	},
+	"dataFlow": {
+		"props": ["openDelay", "closeDelay", "side", "align"]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: HoverCard opens via Bits UI LinkPreview with open/close delays and keyboard focus; profile metadata renders statically. Phase 2 wires smooth spring scale (0.96 -> 1) with 4px directional offset, cross-card skip-window warm state, and avatar async blur-in."
+	]
+}

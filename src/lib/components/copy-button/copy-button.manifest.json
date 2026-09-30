@@ -1,0 +1,50 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "copy-button",
+		"files": [
+			"registry/components/copy-button/copy-button.tsx"
+		]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/copy-button/copy-button.svelte",
+			"src/lib/components/copy-button/copy-button.types.ts",
+			"src/lib/components/copy-button/copy-button.module.css",
+			"src/lib/components/copy-button/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": [
+			"@lucide/svelte"
+		],
+		"styles": [
+			"src/lib/components/copy-button/copy-button.module.css"
+		]
+	},
+	"dataFlow": {
+		"props": [
+			"value",
+			"label",
+			"className",
+			"iconOnly",
+			"variant"
+		]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"1-still-port: icon and label swap with no crossfade; MorphText per-glyph layout animation and iconIn/iconOut blur-scale are Phase 2.",
+		"DrawnCheck (SVG path that draws itself, pathLength 0->1) is replaced by the lucide Check icon in Phase 1; the self-drawing stroke is Phase 2.",
+		"The per-state iconInner (React keyed motion.span) is a single span carrying data-state; Phase 2 re-keys it with {#key state}.",
+		"Added class, ref and rest attributes on the button."
+	]
+}

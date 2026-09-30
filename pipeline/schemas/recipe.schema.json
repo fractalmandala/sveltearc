@@ -1,0 +1,40 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://fractaldev.local/uiautomation/recipe.schema.json",
+	"title": "Component recipe",
+	"description": "The only file a human (or an agent) writes per component. Every field is a pick from a closed vocabulary that lives elsewhere: parts from anatomy/<component>.json, roles from roles.json, axes from axes.json.",
+	"type": "object",
+	"required": ["component", "importFrom", "importName", "parts", "source"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"$comment": { "type": "string" },
+		"component": { "type": "string" },
+		"anatomy": { "type": "string", "description": "Optional. Anatomy file to read; defaults to anatomy/<component lowercased>.json. Needed when the namespace directory is hyphenated (ToggleGroup -> toggle-group.json)." },
+		"source": { "type": "string", "description": "Must match anatomy.source." },
+		"importFrom": { "type": "string", "description": "Package the headless parts are imported from." },
+		"importName": { "type": "string", "description": "Namespace imported, e.g. Accordion for `import { Accordion as Headless }`." },
+		"adapter": { "type": "string", "description": "Token adapter name; informational, the loaded adapter is authoritative." },
+		"axes": {
+			"type": "array",
+			"uniqueItems": true,
+			"items": { "type": "string" },
+			"description": "Axes this component exposes. Names are validated against axes.json by check.mjs."
+		},
+		"unstyled": {
+			"type": "object",
+			"description": "part -> anatomy states that deliberately need no declaration (resting states, ARIA-only states, states an ancestor already dims). This is the third answer to the coverage gate: styled, deliberately unstyled, or unanswered. check.mjs validates both directions - a part or state the anatomy does not declare is an error, and declaring a state that a role styles is an error.",
+			"additionalProperties": { "type": "array", "items": { "type": "string" } }
+		},
+		"parts": {
+			"type": "object",
+			"minProperties": 1,
+			"description": "part -> roles. Authored order IS emission order, which is the cascade contract. Also the reason this is not a closed enum: CORE-IDEA.md's inline role enum would silently reject every role added later, so role/part/axis existence is enforced against the taxonomy files by check.mjs instead. Parts that render no styleable DOM (context providers, component-tagged utility parts) may be omitted; check.mjs requires the rest to be a decision.",
+			"additionalProperties": {
+				"type": "array",
+				"minItems": 1,
+				"items": { "type": "string", "description": "A role name from roles.json. Later roles win on property conflicts." }
+			}
+		}
+	}
+}

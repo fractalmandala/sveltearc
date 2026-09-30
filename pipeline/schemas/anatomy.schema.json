@@ -1,0 +1,55 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://fractaldev.local/uiautomation/anatomy.schema.json",
+	"title": "Component anatomy",
+	"description": "Output of scripts/extract-anatomy.mjs. Machine-written: never author this by hand, and never let a recipe assume a part that is not here.",
+	"type": "object",
+	"required": ["component", "parts", "source", "states"],
+	"additionalProperties": true,
+	"properties": {
+		"$generated": { "type": "string" },
+		"component": { "type": "string" },
+		"namespace": { "type": "string", "description": "Directory the parts were parsed from." },
+		"source": { "type": "string", "description": "Headless library id, e.g. bits-ui." },
+		"snippets": { "type": "array", "items": { "type": "string" } },
+		"states": {
+			"type": "object",
+			"description": "part -> states discovered from data-* attributes.",
+			"additionalProperties": { "type": "array", "items": { "type": "string" } }
+		},
+		"parts": {
+			"type": "object",
+			"minProperties": 1,
+			"additionalProperties": {
+				"type": "object",
+				"required": ["dataSlot", "file", "props", "tag"],
+				"properties": {
+					"dataSlot": { "type": "string" },
+					"file": { "type": "string" },
+					"tag": { "type": "string" },
+					"role": { "type": ["string", "null"] },
+					"bindings": { "type": "array", "items": { "type": "string" } },
+					"dynamicAttributes": { "type": "array", "items": { "type": "string" } },
+					"staticAttributes": { "type": "object" },
+					"snippets": { "type": "array", "items": { "type": "string" } },
+					"props": {
+						"type": "object",
+						"description": "Per-part is authoritative: Bits UI ships parts as separate components, so there is no single global prop list.",
+						"additionalProperties": {
+							"type": "object",
+							"required": ["type"],
+							"properties": {
+								"type": { "enum": ["boolean", "string", "number", "union", "snippet", "array", "unknown"] },
+								"values": { "type": "array", "items": { "type": "string" } },
+								"default": {},
+								"required": { "type": "boolean" },
+								"hasDefault": { "type": "boolean" },
+								"local": { "type": "string" }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

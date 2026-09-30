@@ -1,0 +1,43 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "button",
+		"files": [
+			"registry/components/button/button.tsx"
+		]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/button/button.svelte",
+			"src/lib/components/button/button.types.ts",
+			"src/lib/components/button/button.module.css",
+			"src/lib/components/button/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": [],
+		"styles": [
+			"src/lib/components/button/button.module.css"
+		]
+	},
+	"dataFlow": {
+		"props": [
+			"variant",
+			"size",
+			"loading"
+		]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: Statically rendered in target state. Phase 2 wires motion tokens."
+	]
+}

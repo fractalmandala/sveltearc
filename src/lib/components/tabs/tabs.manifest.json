@@ -1,0 +1,39 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "tabs",
+		"files": ["registry/components/tabs/tabs.tsx"]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/tabs/tabs.svelte",
+			"src/lib/components/tabs/tabs-list.svelte",
+			"src/lib/components/tabs/tabs-trigger.svelte",
+			"src/lib/components/tabs/tabs-content.svelte",
+			"src/lib/components/tabs/tabs-context.ts",
+			"src/lib/components/tabs/tabs.types.ts",
+			"src/lib/components/tabs/tabs.module.css",
+			"src/lib/components/tabs/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": ["bits-ui", "@lucide/svelte"],
+		"styles": ["src/lib/components/tabs/tabs.module.css"]
+	},
+	"dataFlow": {
+		"props": ["value", "defaultValue", "onValueChange"]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: selection pill renders at active tab; panels render content without direction slide. Phase 2 wires selection pill morph spring (motionTokens.spring.morph), height animation on tab switch, and left/right enter/exit transitions."
+	]
+}

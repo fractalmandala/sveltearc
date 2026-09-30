@@ -1,0 +1,43 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "badge",
+		"files": [
+			"registry/components/badge/badge.tsx"
+		]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/badge/badge.svelte",
+			"src/lib/components/badge/badge.types.ts",
+			"src/lib/components/badge/badge.module.css",
+			"src/lib/components/badge/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": [],
+		"styles": [
+			"src/lib/components/badge/badge.module.css"
+		]
+	},
+	"dataFlow": {
+		"props": [
+			"tone",
+			"size",
+			"icon"
+		]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: Statically rendered in target state. Phase 2 wires motion tokens."
+	]
+}

@@ -1,0 +1,65 @@
+:root
+	--height-head: 80px
+	--height-foot: 64px
+	--height-fit: calc(var(--height-head) + var(--height-foot))
+	--height-stick: calc(100vh - var(--height-fit))
+	--app-inline: 2rem
+
+.app-shell
+	display: flex
+	flex-direction: column
+	width: 100%
+	min-height: 100vh
+	padding-inline: var(--app-inline)
+
+.app-header
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	height: var(--height-head)
+	width: 100%
+	position: sticky
+	top: 0
+
+.app-footer
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	height: var(--height-foot)
+	width: 100%
+
+.app-main-area
+	display: flex
+	flex-direction: row
+
+.content-section
+	width: 100%
+	.page-inside
+		width: 100%
+		@media (min-width: 1025px)
+			width: 720px
+			margin-inline: auto
+
+.app-left
+	display: none
+	@media (min-width: 1025px)
+		display: flex
+		flex-direction: column
+		position: sticky
+		top: var(--height-head)
+		height: calc(100vh - var(--height-head))
+		overflow-y: scroll
+		width: 320px
+
+.app-right
+	display: none
+	@media (min-width: 1281px)
+		top: var(--height-head)
+		height: calc(100vh - var(--height-head))
+		height: 100vh
+		overflow: auto
+		width: 320px
+		display: flex
+		flex-direction: column

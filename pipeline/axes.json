@@ -1,0 +1,13 @@
+{
+	"$comment": "Axis registry. An axis owns only its scale and its data attribute; the declarations that respond to an axis value live in roles.json under `when`, because the role owns aesthetics. This is the file CORE-IDEA.md was missing (its Stage 3 gap): without a declarative axis scale the compiler has to hard-code per-component size blocks.",
+	"size": {
+		"attribute": "data-size",
+		"default": "md",
+		"values": ["sm", "md", "lg"]
+	},
+	"tone": {
+		"attribute": "data-tone",
+		"default": "neutral",
+		"values": ["neutral", "accent", "danger"]
+	}
+}

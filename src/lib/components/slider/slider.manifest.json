@@ -1,0 +1,63 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "slider",
+		"files": [
+			"registry/components/slider/slider.tsx"
+		]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/slider/slider.svelte",
+			"src/lib/components/slider/slider.types.ts",
+			"src/lib/components/slider/slider.module.css",
+			"src/lib/components/slider/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": [],
+		"styles": [
+			"src/lib/components/slider/slider.module.css"
+		]
+	},
+	"dataFlow": {
+		"props": [
+			"label",
+			"value",
+			"defaultValue",
+			"onValueChange",
+			"onValueCommit",
+			"min",
+			"max",
+			"step",
+			"largeStep",
+			"marks",
+			"minStepsBetweenThumbs",
+			"format",
+			"showValue",
+			"thumbLabels",
+			"start",
+			"end",
+			"name",
+			"disabled",
+			"className"
+		]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"1-still-port: thumbs, fill, readout and bubble render at their stepped end-state with no springs; the bubble is {#if}-gated as in React (AnimatePresence without forceMount).",
+		"Phase 2: thumb spring glide and catch-up lag, rubber-band past limits, release momentum carry (project/SNAP_PX), limit-bump on keys, scale 1.16 thumb lift spring, bubble enter/exit, RollingNumber odometer wheels (Wheel/Glyph/slot variants).",
+		"Consumer API deltas: ReactNode start/end -> Snippet; value is $bindable (bind:value) in place of value+onValueChange controlled pairing; added class, ref and rest attributes on the root div.",
+		"No bits-ui primitive: ARC's slider is hand-built (role=slider thumbs, pointer capture), so the port is too.",
+		"Thumb scale(1.16) carried as inline transform on .thumb; CSS centres via `translate`, so they compose."
+	]
+}

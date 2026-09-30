@@ -1,0 +1,44 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "breadcrumb",
+		"files": [
+			"registry/components/breadcrumb/breadcrumb.tsx"
+		]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/breadcrumb/breadcrumb.svelte",
+			"src/lib/components/breadcrumb/breadcrumb.types.ts",
+			"src/lib/components/breadcrumb/breadcrumb.module.css",
+			"src/lib/components/breadcrumb/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": [
+			"@lucide/svelte"
+		],
+		"styles": [
+			"src/lib/components/breadcrumb/breadcrumb.module.css"
+		]
+	},
+	"dataFlow": {
+		"props": [
+			"items",
+			"ariaLabel"
+		]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: Statically rendered in target state. Phase 2 wires motion tokens."
+	]
+}

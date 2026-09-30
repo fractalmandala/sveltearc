@@ -1,0 +1,48 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://fractaldev.local/uiautomation/roles.schema.json",
+	"title": "Semantic role taxonomy",
+	"description": "The design system vocabulary. A role has four parts: tokens (base declarations), states (selector suffix -> declarations), when (axis value -> declarations), behavior (lint-only flags the emitter never reads). Every value is a token name from the active adapter or a literal from vocabulary.json keywords; an array is a space-joined multi-value declaration.",
+	"type": "object",
+	"properties": {
+		"$comment": { "type": "string" }
+	},
+	"additionalProperties": {
+		"type": "object",
+		"additionalProperties": false,
+		"properties": {
+			"$note": { "type": "string" },
+			"tokens": { "$ref": "#/$defs/declarations" },
+			"states": {
+				"type": "object",
+				"description": "Key is a selector suffix from vocabulary.json stateSelectors, e.g. \":hover\" or \"[data-state=\\\"open\\\"]\". Explicit selectors replace CORE-IDEA.md's `\"bg:hover\"` magic-key convention, which made the compiler guess at pseudo-state expansion.",
+				"additionalProperties": { "$ref": "#/$defs/declarations" }
+			},
+			"when": {
+				"type": "object",
+				"description": "Key is \"<axis>=<value>\", e.g. \"size=sm\". Both halves are validated against axes.json.",
+				"additionalProperties": { "$ref": "#/$defs/declarations" }
+			},
+			"behavior": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"interactive": { "type": "boolean", "description": "Lint-only: interactive roles must declare a \":focus-visible\" state. The emitter does not read this." }
+				}
+			}
+		}
+	},
+	"$defs": {
+		"declarations": {
+			"type": "object",
+			"propertyNames": { "description": "Must be one of vocabulary.json properties." },
+			"additionalProperties": {
+				"anyOf": [
+					{ "type": "string", "description": "A token name or a keyword." },
+					{ "type": "array", "minItems": 2, "items": { "type": "string" }, "description": "Space-joined multi-value declaration, e.g. [\"space-xs\",\"space-s\"] -> `padding: var(--space-xs) var(--space-s)`." }
+				],
+				"description": "`transition` is special: exactly [css-property, duration-token, easing-token]. That shape is enforced by the resolver, not by JSON Schema."
+			}
+		}
+	}
+}

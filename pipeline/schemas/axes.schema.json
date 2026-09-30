@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://fractaldev.local/uiautomation/axes.schema.json",
+	"title": "Axis registry",
+	"description": "An axis owns its scale and its data attribute only. The declarations that respond to an axis value live in roles.json under `when`, because the role owns aesthetics. CORE-IDEA.md had no file like this, which is why its Stage 5 example had to hand-write `&[data-size=\"sm\"]` blocks inside the compiler.",
+	"type": "object",
+	"additionalProperties": {
+		"type": "object",
+		"required": ["attribute", "default", "values"],
+		"additionalProperties": false,
+		"properties": {
+			"attribute": { "type": "string", "pattern": "^data-[a-z-]+$" },
+			"default": { "type": "string", "description": "Must appear in `values`." },
+			"values": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" } }
+		}
+	}
+}
