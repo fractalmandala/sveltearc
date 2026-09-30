@@ -9,7 +9,14 @@
 		"url": "git+https://github.com/fractalmandala/sveltearc.git"
 	},
 	"homepage": "https://sveltearc.fractalsvelte.dev",
-	"keywords": ["svelte", "sveltekit", "components", "ui", "bits-ui", "design-system"],
+	"keywords": [
+		"svelte",
+		"sveltekit",
+		"components",
+		"ui",
+		"bits-ui",
+		"design-system"
+	],
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
@@ -28,8 +35,15 @@
 			"default": "./dist/media.js"
 		}
 	},
-	"files": ["dist", "!dist/**/*.manifest.json", "!dist/**/*.test.*", "!dist/**/*.spec.*"],
-	"sideEffects": ["**/*.css"],
+	"files": [
+		"dist",
+		"!dist/**/*.manifest.json",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
@@ -54,6 +68,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-vercel": "^6.3.4",
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/package": "^2.5.8",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
