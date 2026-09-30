@@ -1,0 +1,87 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/chip-group/chip-group.tsx",
+			"registry/components/chip-group/chip-group.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/chip-group/chip-group.svelte",
+			"src/lib/components/chip-group/chip-group.types.ts",
+			"src/lib/components/chip-group/chip-group.module.css",
+			"src/lib/components/chip-group/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["options", "value", "onValueChange", "label", "multiple", "maxVisible", "class"],
+			"bindings": ["value"],
+			"callbacks": ["onValueChange"],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational control; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": ["querySelector/document.activeElement run in the keydown handler only (never on the server)"],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port, docs, and demos",
+			"status": "passed",
+			"evidence": "Whole-project run: 0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "skipped",
+			"evidence": "Skipped: the task brief forbids builds/vite."
+		},
+		{
+			"command": "node scripts/cui-lint.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Agent-coach lint (no <style>, no hallucinated props)",
+			"status": "passed",
+			"evidence": "[] exit 0."
+		},
+		{
+			"command": "node scripts/check-port.mjs --arc ../arc-library-main",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates (files, no-style, verbatim CSS, prop parity, manifest shape)",
+			"status": "passed",
+			"evidence": "chip-group: no errors and no warnings; every ARC prop present (className mapped to class)."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-state: chips render at their resting end-state (check in, label over, surface tinted) with no layout-spring travel; the overflow folds instantly with no height morph; the +N text swaps without the roll; revealed chips appear without stagger. Phase 2 wires the shared-layout springs, width-lag edge follow, HeightFrame morph, text roll, stagger, and check draw.",
+		"No Radix or bits-ui primitive exists for this composition (ARC source uses motion LayoutGroup, not a Radix primitive), so the group is a custom port of ARC behaviour: roving tabindex, arrow/Home/End navigation, pinned overflow selection, and the MoreChip are preserved 1:1 minus motion.",
+		"LayoutGroup/AnimatePresence dropped (no exiting elements, so no AnimatePresence exit semantics to preserve); useWidthLag/HeightFrame/Swap helpers dropped with their ResizeObserver/motion machinery — data-selected CSS selectors carry the resting visuals.",
+		"React-only className dropped in favour of Svelte class. onValueChange is optional when using bind:value (ARC required it); value otherwise stays purely controlled as in ARC.",
+		"No icon dependency: the check is inline SVG per ARC."
+	]
+}

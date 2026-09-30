@@ -1,0 +1,71 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/text-morph/text-morph.tsx",
+			"registry/components/text-morph/text-morph.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/text-morph/text-morph.svelte",
+			"src/lib/components/text-morph/text-morph.types.ts",
+			"src/lib/components/text-morph/text-morph.module.css",
+			"src/lib/components/text-morph/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["children", "as", "class", "id"],
+			"bindings": [],
+			"callbacks": [],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational text effect; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port",
+			"status": "passed",
+			"evidence": "0 errors project-wide (2026-09-30); no findings in text-morph files (12 pre-existing warnings in number-field/tag-input only)."
+		},
+		{
+			"command": "node scripts/check-port.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+			"status": "passed",
+			"evidence": "text-morph: 0 errors, 0 warnings (project total 0 err / 14 pre-existing warnings)."
+		}
+	],
+	"gaps": [
+		"Phase-1 still-port: renders the current label in its settled end state (srOnly text + frame/track with one settled glyph cell per character); no morph is animated yet.",
+		"ARC `children: string` is the label text itself, kept as `children: string` (not a Snippet). React `className` dropped in favour of Svelte `class`; no other public-prop deltas.",
+		"Deferred to Phase 2: glyph-sharing keyed morph with reading-order stagger, the width-follow spring, ResizeObserver font/resize refit, and reduced-motion instant swap, via @humanspeak/svelte-motion per MOTION-CONVENTIONS.md."
+	]
+}

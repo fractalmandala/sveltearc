@@ -1,0 +1,72 @@
+{
+  "contractVersion": "1.0",
+  "status": "still-port",
+  "source": {
+    "framework": "react",
+    "kind": "component",
+    "files": [
+      "registry/components/number-field/number-field.tsx",
+      "registry/components/number-field/number-field.module.css"
+    ],
+    "route": null,
+    "animationTier": "framer-motion"
+  },
+  "target": {
+    "kind": "component",
+    "files": [
+      "src/lib/components/number-field/number-field.svelte",
+      "src/lib/components/number-field/number-field.types.ts",
+      "src/lib/components/number-field/number-field.module.css",
+      "src/lib/components/number-field/index.ts"
+    ],
+    "route": null,
+    "publicApi": {
+      "props": ["label", "value", "defaultValue", "onValueChange", "min", "max", "step", "largeStep", "description", "disabled", "id", "prefix", "suffix", "scrub", "locale", "formatOptions", "size", "limitHint", "class", "aria-describedby", "aria-invalid"],
+      "bindings": ["value"],
+      "callbacks": ["onValueChange"],
+      "snippets": []
+    }
+  },
+  "dependencies": {
+    "present": ["@lucide/svelte"],
+    "required": ["@lucide/svelte"],
+    "missing": [],
+    "fallbacks": []
+  },
+  "dataFlow": {
+    "loadFile": "none",
+    "reason": "Presentational form field; all data arrives via props.",
+    "serverData": [],
+    "actions": [],
+    "invalidations": [],
+    "serialization": "not-applicable"
+  },
+  "ssr": {
+    "mode": "safe",
+    "browserOnlyApis": [],
+    "guards": [],
+    "disabledReason": null
+  },
+  "verification": [
+    {
+      "command": "node scripts/check-port.mjs",
+      "cwd": "svelte-arcui",
+      "purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+      "status": "passed",
+      "evidence": "number-field: ok, 0 errors repo-wide (check-port: 46 components, 0 errors)."
+    },
+    {
+      "command": "npx svelte-check --tsconfig ./tsconfig.json",
+      "cwd": "svelte-arcui",
+      "purpose": "svelte-check types + Svelte compile",
+      "status": "passed",
+      "evidence": "0 errors / 0 warnings repo-wide."
+    }
+  ],
+  "gaps": [
+    "Phase 1 still-port: the odometer digit wheels, rolling affix characters, word-rise helper row, limit-note slide, value strain kick, icon shake, and scrub/shift glide render their static end states. The `.column`, `.glyph`, `.char`, `.wordSlot`, `.wordSizer`, `.messageSlot`, `.words` and `.word` elements are kept so Phase 2 wires motion without restructuring.",
+    "The hold-to-repeat speedup curve, clamp/strain/limit-note cadence, live-apply typing, and scrub resistance math are ported; only their motion outputs (bumpY/scrubX/shiftX springs, icon shake, duplicate effort gain on the kick) are static.",
+    "React `useRef` mutable boxes map to plain script variables synced through `$effect`; `useLayoutEffect` measure/animate cycles are dropped with the motion.",
+    "`aria-describedby`/`aria-invalid` caller values are accepted and merged ahead of the hint and limit-note ids; ARC builds `aria-describedby` from hint + limit ids only."
+  ]
+}

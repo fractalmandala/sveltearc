@@ -1,0 +1,71 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/slot-text/slot-text.tsx",
+			"registry/components/slot-text/slot-text.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/slot-text/slot-text.svelte",
+			"src/lib/components/slot-text/slot-text.types.ts",
+			"src/lib/components/slot-text/slot-text.module.css",
+			"src/lib/components/slot-text/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["value", "format", "duration", "stagger", "spins", "align", "announce", "class", "style"],
+			"bindings": [],
+			"callbacks": [],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational text effect; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port",
+			"status": "passed",
+			"evidence": "0 errors project-wide (2026-09-30); no findings in slot-text files (12 pre-existing warnings in number-field/tag-input only)."
+		},
+		{
+			"command": "node scripts/check-port.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+			"status": "passed",
+			"evidence": "slot-text: 0 errors, 0 warnings (project total 0 err / 14 pre-existing warnings)."
+		}
+	],
+	"gaps": [
+		"Phase-1 still-port: every reel renders its landed target cell statically (sizer + window + single-cell strip per character) with the srOnly text and aria-live wiring intact; no spinning is animated yet.",
+		"React `className` dropped in favour of Svelte `class`; ARC `style?: CSSProperties` becomes `style?: string` (Svelte inline-style attribute); no other public-prop deltas.",
+		"`duration`, `stagger`, `spins` and `align` are accepted for API parity but have no effect yet. Deferred to Phase 2: digit/letter strip building with deterministic shuffle, landing-ease spin with per-reel stagger, width-follow springs, velocity blur, AnimatePresence enter/exit, and reduced-motion instant path, via @humanspeak/svelte-motion per MOTION-CONVENTIONS.md."
+	]
+}

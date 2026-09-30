@@ -1,0 +1,103 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/multi-select/multi-select.tsx",
+			"registry/components/multi-select/multi-select.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/multi-select/multi-select.svelte",
+			"src/lib/components/multi-select/multi-select.types.ts",
+			"src/lib/components/multi-select/multi-select.module.css",
+			"src/lib/components/multi-select/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": [
+				"label",
+				"options",
+				"value",
+				"defaultValue",
+				"onValueChange",
+				"open",
+				"onOpenChange",
+				"placeholder",
+				"description",
+				"maxVisible",
+				"disabled",
+				"class"
+			],
+			"bindings": ["value", "open"],
+			"callbacks": ["onValueChange", "onOpenChange"],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": ["bits-ui", "@lucide/svelte"],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational control; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port, docs, and demos",
+			"status": "passed",
+			"evidence": "Whole-project run: 0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "skipped",
+			"evidence": "Skipped: the task brief forbids builds/vite."
+		},
+		{
+			"command": "node scripts/cui-lint.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Agent-coach lint (no <style>, no hallucinated props)",
+			"status": "passed",
+			"evidence": "[] exit 0."
+		},
+		{
+			"command": "node scripts/check-port.mjs --arc ../arc-library-main",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates (files, no-style, verbatim CSS, prop parity, manifest shape)",
+			"status": "passed",
+			"evidence": "multi-select: no errors; only prop warnings for intentional additions (open, onOpenChange)."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-state: chips and the overflow count render at their resting end-state with no slot-spring travel; the menu mounts when open with no enter/exit travel; the check renders fully drawn. Phase 2 wires the chip slot springs, overflow count roll, check path draw, and menu spring.",
+		"ARC source is custom-built (no Radix primitives), so there were no ARC primitive parts to map 1:1. bits-ui Combobox (Root type=multiple, Trigger, ContentStatic, Item) hosts open/multi-selection, menu semantics, trigger keyboard, outside-dismiss, and data-state; chips, overflow math, and the clear button follow ARC.",
+		"CSS kept verbatim, so the highlight hook stays data-active: it is driven by ARC activeIndex state synced from bits Item onHighlight/onUnhighlight, and reset when the menu closes. bits-ui additionally sets data-highlighted, which is unstyled.",
+		"Option host is a bits Item (div with role=option) rather than the ARC button element; selection state comes from the Item children snippet ({ selected }) and disabled options are skipped by bits-ui with aria-disabled.",
+		"Trigger keyboard (Enter/Space toggle, arrows navigate, Escape closes) is owned by bits-ui, replacing the ARC custom onKeyDown; the trigger carries ARC aria-labelledby labelling and the screen-reader value text.",
+		"Combobox Input/Portal/Viewport/ScrollButtons parts not applicable: the trigger owns the anchor, content renders statically in place (ARC CSS absolute positioning), and the list scrolls natively. No forceMount: the menu mounts on open, matching ARC AnimatePresence mount/unmount; no {#if} is written around any bits presence part.",
+		"React-only className dropped in favour of Svelte class. Added bindable open/onOpenChange for control through the bits-ui host (check-port prop warnings, intentional).",
+		"lucide-react imports mapped to @lucide/svelte/icons/<kebab> (chevron-down, x) with ARC size preserved; the option check is inline SVG per ARC (static end-state, no path draw)."
+	]
+}

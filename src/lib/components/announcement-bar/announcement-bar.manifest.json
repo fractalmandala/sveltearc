@@ -1,0 +1,76 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/announcement-bar/announcement-bar.tsx",
+			"registry/components/announcement-bar/announcement-bar.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/announcement-bar/announcement-bar.svelte",
+			"src/lib/components/announcement-bar/announcement-bar.types.ts",
+			"src/lib/components/announcement-bar/announcement-bar.module.css",
+			"src/site/docs/announcement-bar.ts",
+			"src/site/demos/announcement-bar.svelte"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["messages", "id", "open", "defaultOpen", "onOpenChange", "index", "defaultIndex", "onIndexChange", "interval", "autoPlay", "controls", "dismissible", "tone", "onAction", "onCountdownEnd", "label", "class", "ref"],
+			"bindings": ["ref"],
+			"callbacks": ["onOpenChange", "onIndexChange", "onAction", "onCountdownEnd"],
+			"snippets": ["message (per announcement)"]
+		}
+	},
+	"dependencies": {
+		"present": ["@lucide/svelte"],
+		"required": [],
+		"missing": [],
+		"fallbacks": ["No bits-ui primitive here — plain DOM carries the source's own carousel roles/aria."]
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational banner fed by a `messages` prop; no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": ["window.localStorage (remembered dismissal)", "window.matchMedia (reduced motion)", "window.setTimeout/clearTimeout (rotation + countdown)", "document (visibility listener)"],
+		"guards": ["All browser APIs live inside $effect or event handlers, which never run during SSR; server render shows the default-open bar."],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings in announcement-bar files (whole-project run)."
+		},
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates: files, verbatim CSS, prop parity, manifest",
+			"status": "passed",
+			"evidence": "announcement-bar: ok."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-port by design: no motion library wired. The face rise/blur swap, the viewport height spring, the digit-roll countdown, the pause-ring progress sweep and the dismiss collapse all render as static end-states; rotation and dismissal swap/close instantly.",
+		"ARC's forwardRef became a $bindable `ref` prop with bind:this on the section.",
+		"Announcement.message is typed `string | Snippet`; ARC takes any ReactNode. Plain strings cover ARC's documented usage; rich content passes a Snippet instead of JSX.",
+		"Remembered dismissal is read in $effect (client-only), so a dismissed bar can flash on first paint; ARC hides before paint via useLayoutEffect. The write path (set on dismiss) matches.",
+		"Height measuring uses bind:offsetHeight + $effect instead of ResizeObserver (equivalent, Svelte-idiomatic).",
+		"Direction-aware face variants (next rises from below, previous from above) collapse to one instant swap; direction state returns with Phase 2.",
+		"lucide-react → @lucide/svelte for the CTA, chevron, pause/play and close icons."
+	]
+}

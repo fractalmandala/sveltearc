@@ -1,0 +1,73 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/in-view-title/in-view-title.tsx",
+			"registry/components/in-view-title/in-view-title.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/in-view-title/in-view-title.svelte",
+			"src/lib/components/in-view-title/in-view-title.types.ts",
+			"src/lib/components/in-view-title/in-view-title.module.css",
+			"src/lib/components/in-view-title/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["text", "variant", "as", "lines", "class", "id", "once"],
+			"bindings": [],
+			"callbacks": [],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational text effect; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port",
+			"status": "passed",
+			"evidence": "0 errors project-wide (2026-09-30); no findings in in-view-title files (12 pre-existing warnings in number-field/tag-input only)."
+		},
+		{
+			"command": "node scripts/check-port.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+			"status": "passed",
+			"evidence": "in-view-title: 0 errors, 0 warnings (project total 0 err / 14 pre-existing warnings)."
+		}
+	],
+	"gaps": [
+		"Phase-1 still-port: renders the final visible end state statically for all five variants (word, line, blur, tracking, wipe); no motion is wired yet.",
+		"React `className` dropped in favour of Svelte `class`; no other public-prop deltas.",
+		"The `pending` hydration-fallback wrapper class is not rendered: the still-port always shows the settled state, matching the CSS fallback's own end state.",
+		"`once` is accepted for API parity but has no effect yet: no IntersectionObserver / scroll listener is wired, so there is no replay behaviour to configure.",
+		"Phase 2 will wire the in-view reveal via @humanspeak/svelte-motion per MOTION-CONVENTIONS.md (incl. reduced-motion instant end state)."
+	]
+}

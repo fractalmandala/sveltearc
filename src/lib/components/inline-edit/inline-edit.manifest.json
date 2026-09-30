@@ -1,0 +1,73 @@
+{
+  "contractVersion": "1.0",
+  "status": "still-port",
+  "source": {
+    "framework": "react",
+    "kind": "component",
+    "files": [
+      "registry/components/inline-edit/inline-edit.tsx",
+      "registry/components/inline-edit/inline-edit.module.css"
+    ],
+    "route": null,
+    "animationTier": "framer-motion"
+  },
+  "target": {
+    "kind": "component",
+    "files": [
+      "src/lib/components/inline-edit/inline-edit.svelte",
+      "src/lib/components/inline-edit/inline-edit.types.ts",
+      "src/lib/components/inline-edit/inline-edit.module.css",
+      "src/lib/components/inline-edit/index.ts"
+    ],
+    "route": null,
+    "publicApi": {
+      "props": ["value", "onSave", "label", "validate", "placeholder", "multiline", "variant", "as", "class"],
+      "bindings": ["value"],
+      "callbacks": ["onSave"],
+      "snippets": []
+    }
+  },
+  "dependencies": {
+    "present": ["@lucide/svelte"],
+    "required": ["@lucide/svelte"],
+    "missing": [],
+    "fallbacks": []
+  },
+  "dataFlow": {
+    "loadFile": "none",
+    "reason": "Presentational edit-in-place field; the saved value arrives via props and persists through onSave.",
+    "serverData": [],
+    "actions": [],
+    "invalidations": [],
+    "serialization": "not-applicable"
+  },
+  "ssr": {
+    "mode": "safe",
+    "browserOnlyApis": [],
+    "guards": [],
+    "disabledReason": null
+  },
+  "verification": [
+    {
+      "command": "node scripts/check-port.mjs",
+      "cwd": "svelte-arcui",
+      "purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+      "status": "passed",
+      "evidence": "inline-edit: ok, 0 errors repo-wide (check-port: 46 components, 0 errors)."
+    },
+    {
+      "command": "npx svelte-check --tsconfig ./tsconfig.json",
+      "cwd": "svelte-arcui",
+      "purpose": "svelte-check types + Svelte compile",
+      "status": "passed",
+      "evidence": "0 errors / 0 warnings repo-wide."
+    }
+  ],
+  "gaps": [
+    "Phase 1 still-port: text layer rise/blur swaps, rollback direction, slot icon spring/blur, drawn-check stroke animation, frame width morph, multiline box height spring, and message reveal height spring render their static end states. The `.reveal`, `.revealInner`, `.message`, `.layer` and `.text` elements are kept so Phase 2 wires motion without restructuring.",
+    "The `.reveal` wrapper stays mounted with the message rendered conditionally inside (ARC animates its height from zero); an empty reveal renders no visible row.",
+    "Typing-width tracking (frame/box motion values + ResizeObserver) is dropped; the display text still sizes the box in flow and the control overlays it absolutely.",
+    "React render-time external-value sync maps to a `$effect` sync; `useSyncExternalStore` hydration guard for reduced motion is moot with no motion wired.",
+    "`className` (React) maps to Svelte's `class`; `as` renders through `<svelte:element>`."
+  ]
+}

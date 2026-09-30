@@ -1,0 +1,106 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/combobox/combobox.tsx",
+			"registry/components/combobox/combobox.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/combobox/combobox.svelte",
+			"src/lib/components/combobox/combobox.types.ts",
+			"src/lib/components/combobox/combobox.module.css",
+			"src/lib/components/combobox/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": [
+				"label",
+				"options",
+				"value",
+				"defaultValue",
+				"onValueChange",
+				"open",
+				"onOpenChange",
+				"description",
+				"placeholder",
+				"emptyMessage",
+				"id",
+				"disabled",
+				"class",
+				"ref"
+			],
+			"bindings": ["value", "open", "ref"],
+			"callbacks": ["onValueChange", "onOpenChange"],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": ["bits-ui", "@lucide/svelte"],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational control; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": ["Element.scrollIntoView", "HTMLElement.focus"],
+		"guards": ["scrollIntoView runs inside $effect (never on the server)", "focus runs in event handlers only"],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port, docs, and demos",
+			"status": "passed",
+			"evidence": "Whole-project run: 0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "skipped",
+			"evidence": "Skipped: the task brief forbids builds/vite."
+		},
+		{
+			"command": "node scripts/cui-lint.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Agent-coach lint (no <style>, no hallucinated props)",
+			"status": "passed",
+			"evidence": "[] exit 0."
+		},
+		{
+			"command": "node scripts/check-port.mjs --arc ../arc-library-main",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates (files, no-style, verbatim CSS, prop parity, manifest shape)",
+			"status": "passed",
+			"evidence": "combobox: no errors; only prop warnings for intentional additions (open, onOpenChange, id, disabled)."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-state: the list mounts when open at its resting end-state with no enter/exit travel; the clear button renders statically; the chosen label swaps without the rise-in/blur settle. Phase 2 wires the popover spring, list auto-height morph, clear-button scale/blur, and the label settle animation.",
+		"ARC source is custom-built (no Radix primitives), so there were no ARC primitive parts to map 1:1. bits-ui Combobox (Root type=single, ContentStatic, Item) hosts open/value/selection, list semantics, outside-dismiss, and data-state; the text field keeps ARC query/display/keyboard logic with identical aria (role=combobox, aria-expanded/controls/autocomplete/activedescendant).",
+		"CSS kept verbatim, so the highlight hook stays data-active: it is driven by ARC activeIndex state synced from bits Item onHighlight/onUnhighlight (pointer and keyboard). bits-ui additionally sets data-highlighted, which is unstyled.",
+		"Option ids are passed explicitly to bits Items so the input aria-activedescendant references keep working.",
+		"AutoHeight ResizeObserver morph dropped (the list sizes naturally and scrolls via CSS); active-option scroll-into-view kept via a $effect with scrollIntoView({ block: 'nearest' }).",
+		"Outside-dismiss is owned by bits-ui DismissibleLayer, replacing the document pointerdown listener; Escape is owned by bits-ui EscapeLayer plus the ARC query reset.",
+		"Combobox Trigger/Input/Portal/Viewport/ScrollButtons parts not applicable: ARC has no trigger button (the input owns focus), content renders statically in place (ARC CSS absolute positioning), and the list scrolls natively. No forceMount: the menu mounts on open, matching ARC AnimatePresence mount/unmount; no {#if} is written around any bits presence part.",
+		"React-only className dropped in favour of Svelte class. Added bindable open/onOpenChange for control through the bits-ui host and bindable ref to the text field (check-port prop warnings, intentional).",
+		"lucide-react imports mapped to @lucide/svelte/icons/<kebab> (search, chevron-down, check, x) with ARC size/strokeWidth preserved."
+	]
+}

@@ -1,0 +1,73 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/toast/toast.tsx",
+			"registry/components/toast/toast.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/toast/toast.svelte",
+			"src/lib/components/toast/toast.types.ts",
+			"src/lib/components/toast/toast.module.css",
+			"src/site/docs/toast.ts",
+			"src/site/demos/toast.svelte"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["title", "description", "open", "onOpenChange", "duration", "class"],
+			"bindings": [],
+			"callbacks": ["onOpenChange"],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": ["@lucide/svelte"],
+		"required": [],
+		"missing": [],
+		"fallbacks": ["No bits-ui Toast namespace exists — plain DOM carries the source's own role=status / aria-live=polite / aria-atomic=true."]
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational single-toast component with no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": ["window.setTimeout / window.clearTimeout (auto-dismiss timer)"],
+		"guards": ["Timer lives inside $effect, which never runs during SSR; server render starts settled and visible."],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings in toast files (whole-project run)."
+		},
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates: files, verbatim CSS, prop parity, manifest",
+			"status": "passed",
+			"evidence": "toast: ok."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-port by design: no motion library wired. The enter rise (opacity/y/scale spring), the exit sink-or-throw, the check-path draw-in, the title/description blur cross-fade (Swap/popLayout) and the HeightFrame content-height spring all render as static end-states; mount/unmount is instant.",
+		"Drag-to-dismiss is omitted in Phase 1 (no swipe distance/velocity handling, no spring-home on release, no reduced-motion drag disable). Dismissal is via the close button and the duration timer only.",
+		"Hydration enter behaviour (server-rendered toasts start settled, client-mounted ones rise in) collapses to one path: everything renders settled.",
+		"Outgoing-copy aria-hidden handoff (Swap hides the leaving copy from assistive tech mid-fade) has no leaving copy in Phase 1, so there is nothing to hide; the live region always reads the current text."
+	]
+}

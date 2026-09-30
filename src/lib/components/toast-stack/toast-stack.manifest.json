@@ -1,0 +1,80 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/toast-stack/toast-stack.tsx",
+			"registry/components/toast-stack/toast-stack.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/toast-stack/toast-stack.svelte",
+			"src/lib/components/toast-stack/toast-stack-item.svelte",
+			"src/lib/components/toast-stack/toast-stack-provider.svelte",
+			"src/lib/components/toast-stack/toast-stack-store.svelte.ts",
+			"src/lib/components/toast-stack/toast-stack.types.ts",
+			"src/lib/components/toast-stack/toast-stack.module.css",
+			"src/site/docs/toast-stack.ts",
+			"src/site/demos/toast-stack.svelte"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["children", "duration", "limit", "store", "label", "position", "contained", "visibleToasts", "hotkey", "class"],
+			"bindings": [],
+			"callbacks": ["toast", "update", "dismiss", "onClick (per-toast action)"],
+			"snippets": ["children"]
+		}
+	},
+	"dependencies": {
+		"present": ["@lucide/svelte"],
+		"required": [],
+		"missing": [],
+		"fallbacks": ["No bits-ui Toast namespace exists — plain DOM carries the source's own live-region roles/aria."]
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Client-side queue fed by useToastStack() calls; no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": ["window.setTimeout/clearTimeout (per-toast timers)", "window.matchMedia (reduced motion)", "document (visibility, hotkey, outside-tap listeners)", "requestAnimationFrame (focus hand-off)"],
+		"guards": ["All browser APIs live inside $effect or event handlers, which never run during SSR; server render is the empty list."],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings in toast-stack files (whole-project run)."
+		},
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates: files, verbatim CSS, prop parity, manifest",
+			"status": "passed",
+			"evidence": "toast-stack: ok."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-port by design: no motion library wired. layoutStack() is ported verbatim and applied as static inline geometry (translateY/scale/height/opacity); the enter rise, hover fan-out springs, height morphs, icon/text/action-width swaps (AnimatePresence/popLayout), the loading spinner keeps its CSS keyframes, and dismiss is instant with no leave fade or sink/throw.",
+		"React context + useSyncExternalStore became a $state-backed ToastStackStore class in toast-stack-store.svelte.ts with Svelte context; useToastStack() keeps ARC's throw-outside-provider. One deliberate asymmetry: a viewport with no provider falls back to a local store instead of throwing, so lone previews work.",
+		"Port-only `store` prop on the provider (inject a pre-made store; used by the demo). Documented here; ARC constructs internally only.",
+		"Swipe-to-dismiss pointer gestures are omitted in Phase 1 (no 1:1 finger follow, rubber-band, velocity projection, or spring-back). Dismissal is via close button, Escape, action, timer, or API.",
+		"Height measuring uses bind:offsetHeight + $effect instead of ResizeObserver (equivalent, Svelte-idiomatic).",
+		"Focus hand-off after a keyboard dismiss targets the toast at the same index (or the last live one), then the pre-stack return focus — ARC's inert-filtered next/previous walk simplified to index-stable.",
+		"Outgoing-copy aria-hidden handoff has no leaving copies in Phase 1, so the live region always reads current text (same simplification as toast).",
+		"Reduced-motion and expanded/content targets collapse to the same static geometry; the spinner animation is stilled by the verbatim CSS media query."
+	]
+}

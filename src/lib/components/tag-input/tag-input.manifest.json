@@ -1,0 +1,73 @@
+{
+  "contractVersion": "1.0",
+  "status": "still-port",
+  "source": {
+    "framework": "react",
+    "kind": "component",
+    "files": [
+      "registry/components/tag-input/tag-input.tsx",
+      "registry/components/tag-input/tag-input.module.css"
+    ],
+    "route": null,
+    "animationTier": "framer-motion"
+  },
+  "target": {
+    "kind": "component",
+    "files": [
+      "src/lib/components/tag-input/tag-input.svelte",
+      "src/lib/components/tag-input/tag-input.types.ts",
+      "src/lib/components/tag-input/tag-input.module.css",
+      "src/lib/components/tag-input/index.ts"
+    ],
+    "route": null,
+    "publicApi": {
+      "props": ["label", "value", "defaultValue", "onValueChange", "placeholder", "description", "id", "class", "aria-describedby"],
+      "bindings": ["value"],
+      "callbacks": ["onValueChange"],
+      "snippets": []
+    }
+  },
+  "dependencies": {
+    "present": ["@lucide/svelte"],
+    "required": ["@lucide/svelte"],
+    "missing": [],
+    "fallbacks": []
+  },
+  "dataFlow": {
+    "loadFile": "none",
+    "reason": "Presentational form field; all data arrives via props.",
+    "serverData": [],
+    "actions": [],
+    "invalidations": [],
+    "serialization": "not-applicable"
+  },
+  "ssr": {
+    "mode": "safe",
+    "browserOnlyApis": [],
+    "guards": [],
+    "disabledReason": null
+  },
+  "verification": [
+    {
+      "command": "node scripts/check-port.mjs",
+      "cwd": "svelte-arcui",
+      "purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+      "status": "passed",
+      "evidence": "tag-input: ok, 0 errors repo-wide (check-port: 46 components, 0 errors)."
+    },
+    {
+      "command": "npx svelte-check --tsconfig ./tsconfig.json",
+      "cwd": "svelte-arcui",
+      "purpose": "svelte-check types + Svelte compile",
+      "status": "passed",
+      "evidence": "0 errors / 0 warnings repo-wide."
+    }
+  ],
+  "gaps": [
+    "Phase 1 still-port: tag enter/exit blur-scale, layout glide between positions, the pick-ring glide, shell height spring, placeholder rise, and helper word-rise render their static end states. The `.ring`, `.messageSlot`, `.words` and `.word` elements are kept so Phase 2 wires motion without restructuring.",
+    "The pick ring renders as a static (hidden, opacity 0) layer instead of measuring and gliding to the picked tag; `data-picked` still marks the picked tag.",
+    "A duplicate Enter announces instead of pulsing the existing tag; the announcement copy is unchanged.",
+    "React `useAnimate` scope queries map to direct state updates; `ResizeObserver` shell/content measuring is dropped with the motion.",
+    "`aria-describedby` caller value is accepted and merged ahead of the hint id; ARC links the hint id only."
+  ]
+}

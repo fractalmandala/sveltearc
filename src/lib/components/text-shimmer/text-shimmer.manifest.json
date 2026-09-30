@@ -1,0 +1,72 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/text-shimmer/text-shimmer.tsx",
+			"registry/components/text-shimmer/text-shimmer.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/text-shimmer/text-shimmer.svelte",
+			"src/lib/components/text-shimmer/text-shimmer.types.ts",
+			"src/lib/components/text-shimmer/text-shimmer.module.css",
+			"src/lib/components/text-shimmer/index.ts"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["children", "active", "duration", "as", "class", "id"],
+			"bindings": [],
+			"callbacks": [],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational text effect; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npx svelte-check --tsconfig ./tsconfig.json",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port",
+			"status": "passed",
+			"evidence": "0 errors project-wide (2026-09-30); no findings in text-shimmer files (12 pre-existing warnings in number-field/tag-input only)."
+		},
+		{
+			"command": "node scripts/check-port.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+			"status": "passed",
+			"evidence": "text-shimmer: 0 errors, 0 warnings (project total 0 err / 14 pre-existing warnings)."
+		}
+	],
+	"gaps": [
+		"Phase-1 still-port: renders the settled label with `data-state` and `aria-busy` intact; no sweep is animated yet.",
+		"STATIC-GRADIENT DECISION (visibility trap): ARC .label sets -webkit-text-fill-color: transparent and paints the text via a JS-driven background-image. The still-port sets an inline `style:background-image=\"linear-gradient(currentColor, currentColor)\"` on the label element INSIDE the component so the text renders solid and is never invisible. Callers must not pass their own background-image; Phase 2 replaces this static gradient with the driven sweep.",
+		"ARC `children: string` is the status text itself, kept as `children: string` (not a Snippet). React `className` dropped in favour of Svelte `class`; no other public-prop deltas.",
+		"`duration` is accepted for API parity but has no effect yet. Deferred to Phase 2: sweep/settle motion values with in-view + page-visibility gating, glide-off on `active=false`, label rise on change, and reduced-motion instant path, via @humanspeak/svelte-motion per MOTION-CONVENTIONS.md."
+	]
+}
