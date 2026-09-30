@@ -25,3 +25,6 @@ vite.config.ts.timestamp-*
 # Python (skill scripts)
 __pycache__/
 *.pyc
+
+# Package build output (rebuilt on prepublishOnly)
+dist
