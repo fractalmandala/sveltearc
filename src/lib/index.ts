@@ -3,6 +3,7 @@
 export { default as Accordion } from './components/accordion/accordion.svelte';
 export { Alert } from './components/alert/index';
 export { default as Avatar } from './components/avatar/avatar.svelte';
+export { AvatarGroup } from './components/avatar-group/index';
 export { Badge } from './components/badge/index';
 export { BottomSheet, BottomSheetClose } from './components/bottom-sheet/index';
 export { Breadcrumb } from './components/breadcrumb/index';

@@ -1,0 +1,76 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/avatar-group/avatar-group.tsx",
+			"registry/components/avatar-group/avatar-group.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/avatar-group/avatar-group.svelte",
+			"src/lib/components/avatar-group/avatar-group.types.ts",
+			"src/lib/components/avatar-group/avatar-group.module.css"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["members", "max", "size", "label", "class"],
+			"bindings": [],
+			"callbacks": [],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": ["$lib/components/avatar/avatar.svelte"],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational group fed by a `members` prop; no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+			"status": "passed",
+			"evidence": "avatar-group: 0 errors, 0 warnings."
+		},
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "passed",
+			"evidence": "vite build completed."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-port: the stack renders statically. The slot open/close spring (`slot`), the overflow count roll (`rise`/`fade`), and AnimatePresence are Phase 2. The hover fan/lift/tip are pure CSS and already work.",
+		"Depends on `Avatar` (ported with the notification-center block). `AvatarGroup` uses no Bits UI primitive."
+	]
+}
