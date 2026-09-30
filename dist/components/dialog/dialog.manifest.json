@@ -1,0 +1,108 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/dialog/dialog.tsx",
+			"registry/components/dialog/dialog.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/dialog/dialog.svelte",
+			"src/lib/components/dialog/dialog-content.svelte",
+			"src/lib/components/dialog/dialog-trigger.svelte",
+			"src/lib/components/dialog/dialog-close.svelte",
+			"src/lib/components/dialog/dialog-context.ts",
+			"src/lib/components/dialog/dialog.types.ts",
+			"src/lib/components/dialog/dialog-trigger.types.ts",
+			"src/lib/components/dialog/dialog-close.types.ts",
+			"src/lib/components/dialog/index.ts",
+			"src/lib/components/dialog/dialog.module.css",
+			"src/site/docs/dialog.ts",
+			"src/site/demos/dialog.svelte"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["open", "defaultOpen", "onOpenChange", "onOpenChangeComplete", "title", "description", "class", "ref"],
+			"bindings": ["open", "ref"],
+			"callbacks": ["onOpenChange", "onOpenChangeComplete", "onInteractOutside"],
+			"snippets": ["children"]
+		}
+	},
+	"dependencies": {
+		"present": ["bits-ui@2.19.3", "@lucide/svelte@1.49.0"],
+		"required": [],
+		"missing": [],
+		"fallbacks": [
+			"Phase 1: framer-motion end-states applied statically as inline style (overlay/content still + gone mirrors); Phase 2 swaps the carrier to @humanspeak/svelte-motion with no structural edit"
+		]
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational overlay component with no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": ["performance.now() — pressOutside timestamp mirror in dialog-content.svelte"],
+		"guards": ["$effect (never runs during SSR) contains the timestamp mirror; portal mounting is bits-ui's own client-side concern"],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings, whole project, re-run after the ScrollLock child-path fix."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "passed",
+			"evidence": "vite build EXIT=0, '✓ built'."
+		},
+		{
+			"command": "node scripts/cui-lint.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Agent-coach design-system contracts",
+			"status": "passed",
+			"evidence": "[] — 0 violations, re-run after the fix."
+		},
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Port gates: files, verbatim CSS, prop parity, manifest",
+			"status": "passed",
+			"evidence": "dialog: ok (project: 1 error in peer's in-progress swipe-actions, none in dialog)."
+		},
+		{
+			"command": "npm run preview + browser probe /components/dialog",
+			"cwd": "svelte-arcui",
+			"purpose": "DOM-parity, still-state, a11y and interaction evidence",
+			"status": "passed",
+			"evidence": "HTTP 200; closed keeps both layers mounted (forceMount) with hidden still-state and NO body lock; open shows role=dialog modal, focus inside, overlay visible, body locked air-gapped to open; Escape + overlay press close with focus back on trigger; Tab x4 loops inside the trap; 3 rapid cycles stable, one dialog node; console clean."
+		}
+	],
+	"gaps": [
+		"Phase 1 by design (1-still-port): no motion library wired; the layers carry ARC's motion end-values as inline still-state and swap instantly. Phase 2 replaces the style carrier with @humanspeak/svelte-motion without a structural edit — Portal stays unconditional, forceMount is already on Content + Overlay (mapping §8.2: Portal takes no forceMount).",
+		"Unmount policy: ARC unmounts the portal subtree after the exit animation (AnimatePresence); Phase 1 keeps the layers mounted under forceMount with visibility: hidden still-state so a mid-flight toggle can retarget once Phase 2 lands. Settled-DOM delta: hidden nodes remain in the document (out of the a11y tree); pointer-events:none while closed is owned by the verbatim CSS !important.",
+			"Consumer callback surface: ARC's onPointerDownOutside → bits-ui's onInteractOutside (mapping §6). Event model differs — Radix fires the callback on the click and hands over the triggering press via event.detail.originalEvent, so ARC compares that original press timestamp against the last open-change; bits-ui hands the raw PointerEvent and fires it at the outside pointerdown itself for mouse/pen (10 ms debounce), deferring to the following click only for touch. The port compares event.timeStamp against the same timestamp mirror — guard intent preserved 1:1: a press that began before the current open-change (e.g. the press that reopened a mid-exit dialog) cannot immediately close it.",
+		"Controlled semantics: ARC freezes a controlled dialog when the consumer ignores onOpenChange; the port follows Svelte conventions — use bind:open for two-way, and the internal handler also assigns the bound prop when one exists.",
+		"Title DOM: bits-ui renders div[role=heading][aria-level=2]; Radix rendered an h2. Level default matches (2); element differs.",
+		"SwapText: Phase 1 renders the swap span's end value only; the rise/blur cross-fade on title/description change is Phase 2.",
+		"Bare-root keyframes path retained for DialogContent under a non-ARC Dialog.Root (open === null branch, CSS keyframes keyed off data-state).",
+		"bits-ui asymmetry: Dialog.Content's DEFAULT children path mounts ScrollLock unconditionally, so under our required forceMount a CLOSED dialog held body pointer-events:none + overflow:hidden — the whole page was input-dead (caught by the runtime gate, not by any static gate). The port renders through bits-ui's child-snippet path, which gates the lock on open and spreads the identical merged props onto the same div; DOM shape and props are unchanged, and the body lock now engages only while open (Radix parity).",
+			"lucide-react → @lucide/svelte for the close icon."
+	]
+}

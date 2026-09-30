@@ -1,0 +1,36 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "bottom-sheet",
+		"files": ["registry/components/bottom-sheet/bottom-sheet.tsx"]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/bottom-sheet/bottom-sheet.svelte",
+			"src/lib/components/bottom-sheet/bottom-sheet-close.svelte",
+			"src/lib/components/bottom-sheet/bottom-sheet.types.ts",
+			"src/lib/components/bottom-sheet/bottom-sheet.module.css",
+			"src/lib/components/bottom-sheet/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": ["bits-ui", "@lucide/svelte"],
+		"styles": ["src/lib/components/bottom-sheet/bottom-sheet.module.css"]
+	},
+	"dataFlow": {
+		"props": ["open", "defaultOpen", "onOpenChange", "title", "description", "detents", "initialDetent", "onDetentChange"]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-state: BottomSheet opens at specified detent (e.g. 0.45 peek vs 0.92 expanded) with grabber keyboard navigation and click toggle. Phase 2 wires continuous touch drag tracking, velocity calculation (velocityOf), rubber band resistance past top detent, and dim opacity linked to sheet position."
+	]
+}

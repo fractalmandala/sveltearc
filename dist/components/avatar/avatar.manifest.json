@@ -1,0 +1,77 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "next",
+		"kind": "component",
+		"files": [
+			"registry/components/avatar/avatar.tsx",
+			"registry/components/avatar/avatar.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/avatar/avatar.svelte",
+			"src/lib/components/avatar/avatar.types.ts",
+			"src/lib/components/avatar/avatar.module.css"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["name", "src", "size", "status", "class"],
+			"bindings": [],
+			"callbacks": [],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": [],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational avatar; no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": ["HTMLImageElement.complete"],
+		"guards": ["trackLoad action (runs on mount, guarded by node.complete)"],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "Whole-project run: 0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "passed",
+			"evidence": "vite build completed."
+		},
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates",
+			"status": "passed",
+			"evidence": "avatar: 0 errors, 0 warnings."
+		}
+	],
+	"gaps": [
+		"Not part of Batch D's Radix set: ported as the dependency `notification-center` needs (it imports ARC's Avatar).",
+		"`next/image` with `fill` becomes a plain `<img>` positioned absolutely (inline style), since ARC's `.module.css` does not size the image itself. Recorded as a next/ adapter, not a visual change.",
+		"Phase 1 still-port: the loading fade and the status dot enter/exit are static (CSS handles the photo fade). The motion-library wiring is Phase 2."
+	]
+}

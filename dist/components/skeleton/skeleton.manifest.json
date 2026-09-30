@@ -1,0 +1,46 @@
+{
+	"contractVersion": "1.0.0",
+	"status": "still-port",
+	"source": {
+		"component": "skeleton",
+		"files": [
+			"registry/components/skeleton/skeleton.tsx",
+			"registry/components/skeleton/skeleton.module.css"
+		]
+	},
+	"target": {
+		"files": [
+			"src/lib/components/skeleton/skeleton.svelte",
+			"src/lib/components/skeleton/skeleton.types.ts",
+			"src/lib/components/skeleton/skeleton.module.css",
+			"src/lib/components/skeleton/index.ts"
+		]
+	},
+	"dependencies": {
+		"runtime": [],
+		"styles": [
+			"src/lib/components/skeleton/skeleton.module.css"
+		]
+	},
+	"dataFlow": {
+		"props": [
+			"label",
+			"lines",
+			"avatar",
+			"className",
+			"children"
+		]
+	},
+	"ssr": {
+		"rendered": true,
+		"hydrated": true
+	},
+	"verification": {
+		"typeCheck": "passed",
+		"build": "passed",
+		"checkPort": "passed"
+	},
+	"gaps": [
+		"Phase 1 still-port. Pulse timing is the verbatim CSS module (1.8s, 90ms --index stagger, 11 iterations; reduced motion disables it). Children mode keeps the HeightFrame + .frame wrappers and shows the settled layer only: placeholder while loading, content otherwise. Phase 2 adds the height spring (ResizeObserver + motionTokens.spring.smooth) and the placeholder/content crossfade (opacity, y: 4). children: ReactNode → Snippet."
+	]
+}

@@ -1,0 +1,102 @@
+{
+	"contractVersion": "1.0",
+	"status": "complete",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/switch/switch.tsx",
+			"registry/components/switch/switch.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/switch/switch.svelte",
+			"src/lib/components/switch/switch.types.ts",
+			"src/lib/components/switch/switch.module.css"
+		],
+		"route": null,
+		"publicApi": {
+			"props": [
+				"checked",
+				"defaultChecked",
+				"onCheckedChange",
+				"label",
+				"disabled",
+				"required",
+				"name",
+				"value",
+				"type",
+				"class",
+				"ref"
+			],
+			"bindings": ["checked", "ref"],
+			"callbacks": ["onCheckedChange"],
+			"snippets": []
+		}
+	},
+	"dependencies": {
+		"present": ["bits-ui@2.19.3", "@humanspeak/svelte-motion@1.5.0"],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational toggle; no route data or load behavior.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile for the port and the gallery",
+			"status": "passed",
+			"evidence": "0 errors / 0 warnings project-wide (svelte-check, 2026-09-30 Phase 2 round)."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "passed",
+			"evidence": "Build completed; fresh client output at 2026-09-30 19:05."
+		},
+		{
+			"command": "node scripts/cui-lint.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Agent-coach design-system contracts",
+			"status": "passed",
+			"evidence": "0 violations found (Phase 2 round)."
+		},
+		{
+			"command": "node scripts/check-port.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+			"status": "passed",
+			"evidence": "switch: 0 errors, 0 warnings (project total 0 err / 14 pre-existing warnings)."
+		},
+		{
+			"command": "node scripts/verify-motion-switch.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Headless Chrome CDP probe of the wired motion on the :4173 preview (/components/switch): spring travel, press-stretch, reduced-motion path",
+			"status": "passed",
+			"evidence": "2 runs, 13/13 assertions each. Travel: 74 frames, 27 distinct x values, settles translateX(18px). Wobble: scaleX peak 1.1598 (~1.16). Press-hold: width 18→23px with x at 13px (far edge anchored), release back to 18/18. prefers-reduced-motion emulated: x only {18,0}, no wobble, no stretch. 0 page errors."
+		}
+	],
+	"gaps": [
+		"Phase 2 (wired, 2026-09-30): the thumb travels on the critically damped `glide` spring, widens 5px under press (pointer button 0 + Space keydown, released on up/leave/cancel/blur), and gets a 1.16 scaleX wobble per committed state change (first render skipped). Reduced motion: transition {duration:0} to the same end state, no stretch, no wobble. Arms: `motion.span` + `animate()` from @humanspeak/svelte-motion; values from motion-tokens (`spring.snappy`).",
+		"bits-ui `Switch.Thumb` is intentionally not rendered: ARC hand-rolls a motion-driven thumb inside a `.track` span, so a plain span preserves DOM parity. The anatomy `thumb` part is recorded as unused."
+	]
+}

@@ -1,0 +1,97 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/dropdown-menu/dropdown-menu.tsx",
+			"registry/components/dropdown-menu/dropdown-menu.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/dropdown-menu/dropdown-menu.svelte",
+			"src/lib/components/dropdown-menu/dropdown-menu.types.ts",
+			"src/lib/components/dropdown-menu/dropdown-menu.module.css"
+		],
+		"route": null,
+		"publicApi": {
+			"props": ["label", "items", "icon"],
+			"bindings": [],
+			"callbacks": ["items[].onSelect"],
+			"snippets": ["icon", "items[].icon"]
+		}
+	},
+	"dependencies": {
+		"present": ["bits-ui@2.19.3", "@lucide/svelte@1.49.0"],
+		"required": ["bits-ui", "@lucide/svelte"],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Self-contained interactive component; all data arrives via props.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "browser-effect",
+		"browserOnlyApis": [
+			"ResizeObserver (inside $effect with disconnect teardown)",
+			"window.clearTimeout / window.setTimeout (event handlers only)"
+		],
+		"guards": ["$effect", "event-handler-only usage"],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check over component, types, and demo route",
+			"status": "passed",
+			"evidence": "0 errors, 0 warnings (project-wide; remaining 1 error at time of report is src/site/demos/accordion.svelte:45 — Agent C's file)"
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "production compile",
+			"status": "passed",
+			"evidence": "exit 0, built in 3.28s"
+		},
+		{
+			"command": "cmp source module.css vs ported module.css",
+			"cwd": "svelte-arcui",
+			"purpose": "CSS verbatim fidelity",
+			"status": "passed",
+			"evidence": "byte-identical"
+		},
+		{
+			"command": "node scripts/cui-lint.mjs --json",
+			"cwd": "svelte-arcui",
+			"purpose": "anatomy-coverage + no-hallucinated-props lint",
+			"status": "skipped",
+			"evidence": "BLOCKED on validator bug (Agent C's file): $props() destructures are not indexed, and bits-ui part names are merged into local components' allowed props, so correct Arc usage is flagged. Escalated in task-4 with exact fix location."
+		},
+		{
+			"command": "browser verification on /dropdown-menu",
+			"cwd": "svelte-arcui",
+			"purpose": "interactive behavior parity (keyboard loop, gliding highlight, rapid toggle)",
+			"status": "skipped",
+			"evidence": "not run — gallery shell + verification harness is Agent C's lane (task-2/3); demo route with full state checklist is in place"
+		}
+	],
+	"gaps": [
+		"Phase: 1 — raw port (still states). Phase 2 wires svelte-motion.",
+		"ReactNode → Snippet: `icon` prop and `items[].icon` are now Snippets (documented in .types.ts); recorded as the accepted API delta.",
+		"Phase 1 still-state: trigger label morph and gliding highlight render their end states statically; label width tracking already live via ResizeObserver ($effect) so Phase 2 springs it without structural edits. Highlight span stays mounted per DOM-parity rule (React kept it mounted, animating opacity to 0). Focus wiring uses onfocusin (bubbling) because Bits UI focuses items inside Content — DOM focus does not bubble.",
+		"Items are keyed by `item.label` exactly as the React original keyed its Fragment; duplicate labels would collide (documented on the `items` prop in .types.ts).",
+		"Anatomy coverage: only Root/Trigger/Portal/Content/Item/Separator used — matches source exactly (verified against pipeline/anatomy/dropdown-menu.json, 18 parts exported, 6 consumed).",
+		"Motion props (AnimatePresence label morph, spring highlight) intentionally absent in Phase 1; listed for Phase 2 wiring per PORTING-PLAN §6."
+	]
+}

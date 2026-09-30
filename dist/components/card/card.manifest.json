@@ -1,0 +1,91 @@
+{
+	"contractVersion": "1.0",
+	"status": "still-port",
+	"source": {
+		"framework": "react",
+		"kind": "component",
+		"files": [
+			"registry/components/card/card.tsx",
+			"registry/components/card/card.module.css"
+		],
+		"route": null,
+		"animationTier": "framer-motion"
+	},
+	"target": {
+		"kind": "component",
+		"files": [
+			"src/lib/components/card/card.svelte",
+			"src/lib/components/card/card.types.ts",
+			"src/lib/components/card/card.module.css"
+		],
+		"route": null,
+		"publicApi": {
+			"props": [
+				"title",
+				"description",
+				"media",
+				"action",
+				"avatar",
+				"meta",
+				"status",
+				"details",
+				"open",
+				"defaultOpen",
+				"onOpenChange",
+				"class"
+			],
+			"bindings": [],
+			"callbacks": ["onOpenChange"],
+			"snippets": ["media", "action", "avatar", "meta", "details", "children"]
+		}
+	},
+	"dependencies": {
+		"present": ["bits-ui", "@lucide/svelte"],
+		"required": [],
+		"missing": [],
+		"fallbacks": []
+	},
+	"dataFlow": {
+		"loadFile": "none",
+		"reason": "Presentational surface with an optional dialog quick look; no route data.",
+		"serverData": [],
+		"actions": [],
+		"invalidations": [],
+		"serialization": "not-applicable"
+	},
+	"ssr": {
+		"mode": "safe",
+		"browserOnlyApis": [],
+		"guards": [],
+		"disabledReason": null
+	},
+	"verification": [
+		{
+			"command": "npm run check",
+			"cwd": "svelte-arcui",
+			"purpose": "svelte-check types + Svelte compile",
+			"status": "passed",
+			"evidence": "Whole-project run: 0 errors / 0 warnings."
+		},
+		{
+			"command": "npm run build",
+			"cwd": "svelte-arcui",
+			"purpose": "Production build",
+			"status": "passed",
+			"evidence": "vite build completed."
+		},
+		{
+			"command": "node scripts/check-port.mjs",
+			"cwd": "svelte-arcui",
+			"purpose": "Per-component port gates",
+			"status": "passed",
+			"evidence": "card: 0 errors, 0 warnings."
+		}
+	],
+	"gaps": [
+		"Phase 1 still-port: the quick look is a normal Dialog (overlay + panel). The shared-layout morph — layoutId across card/panel for the surface, media, title, description, byline and action, the `returning` landing rects, and the `data-returning` state — is Phase 2 and is this port's designated layoutId spike.",
+		"React forceMounts Dialog.Portal/Overlay/Content so the closing surface stays mounted while it travels back to the card. With no morph in Phase 1, the portal renders only while `open` (the reduced-motion path behaves the same), so no forceMount is needed yet. Phase 2 reintroduces it for the return trip.",
+		"`whileHover={{ y: -2 }}` (card lift) and the media zoom are Phase 2; Phase 1 keeps the `data-hover` attribute (pointer enter/leave) so the CSS border/shadow lift still works.",
+		"ResizeObserver geometry (pixel radii + description measure) is a morph-only concern and is omitted in Phase 1."
+	]
+}
