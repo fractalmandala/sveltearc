@@ -1,3 +1,8 @@
 allowBuilds:
   '@parcel/watcher': false
   esbuild: set this to true or false
+minimumReleaseAgeExclude:
+  - fractalpop@0.1.0
+  - '@fractalpop/mdsvex@0.1.0'
+  - '@fractalpop/remark@0.1.0'
+  - '@fractalpop/svelte@0.1.0'
