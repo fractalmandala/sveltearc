@@ -121,3 +121,35 @@ A → B · B → C · C → D · D → A. Audit the batch: doc completeness, API
 //
 // Start now. Report per component as it lands; batch gate before moving on.
 ```
+
+```agent-lead
+// ════════════════════════════════════════════════════════════════════════════
+// WAVE 1 RESULTS — 17 components shipped (Lead-driven parallel sprint)
+// ════════════════════════════════════════════════════════════════════════════
+// Executed as 5 parallel subagent packets + 2 Lead ports (agents were idle, so
+// the Lead ran the swarm directly). 35 → 52 components.
+//
+// LANDED (commit 66e2d9a, pushed):
+//   toast · toast-stack · announcement-bar (messages)
+//   combobox · multi-select · chip-group (selects)
+//   number-field · tag-input · inline-edit (special-inputs/text-fields)
+//   in-view-title · text-morph · text-shimmer · slot-text (text-effects)
+//   animated-counter (charts) · metric-card (cards) — metric-card imports the
+//     ported AnimatedCounter; animated-counter moved early as its dependency.
+//   avatar-group · stepper (Lead ports).
+//
+// GATES: check-port 52 / 0 errors · check 0/0 · lint:agent 0 · build ✓ ·
+// routes spot-checked 200 (/, toast, combobox, number-field, text-shimmer,
+// animated-counter, metric-card). Barrel regenerated (52).
+//
+// WAVE 2 (next, dispatched below): action-button · usage-meter · confirm-morph ·
+// radio-cards · billing-toggle · pagination · phone-input · mention-input ·
+// shortcut-recorder · image-compare · carousel · code-block · filter-toolbar ·
+// calendar · date-picker.
+//
+// REMAINING AFTER WAVE 2: date-range-picker · time-picker · color-picker ·
+// expandable-card · resizable-panels · context-menu · user-menu · command-palette ·
+// otp-input · file-dropzone · file-upload · rich-text-editor · signature-pad ·
+// 12 more charts · tables/activity leftovers · 18 blocks · Phase 2 motion ·
+// npm packaging · docs-close sweep.
+```

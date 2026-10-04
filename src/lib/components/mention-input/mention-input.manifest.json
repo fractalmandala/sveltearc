@@ -1,0 +1,72 @@
+{
+  "contractVersion": "1.0",
+  "status": "still-port",
+  "source": {
+    "framework": "react",
+    "kind": "component",
+    "files": [
+      "registry/components/mention-input/mention-input.tsx",
+      "registry/components/mention-input/mention-input.module.css"
+    ],
+    "route": null,
+    "animationTier": "framer-motion"
+  },
+  "target": {
+    "kind": "component",
+    "files": [
+      "src/lib/components/mention-input/mention-input.svelte",
+      "src/lib/components/mention-input/mention-input.types.ts",
+      "src/lib/components/mention-input/mention-input.module.css",
+      "src/lib/components/mention-input/index.ts"
+    ],
+    "route": null,
+    "publicApi": {
+      "props": ["value", "defaultValue", "onChange", "people", "channels", "onMentionAdd", "onSubmit", "submitOnEnter", "placeholder", "minRows", "maxRows", "placement", "maxSuggestions", "disabled", "name", "id", "aria-label", "aria-describedby", "class"],
+      "bindings": ["value", "ref"],
+      "callbacks": ["onChange", "onMentionAdd", "onSubmit"],
+      "snippets": []
+    }
+  },
+  "dependencies": {
+    "present": ["@lucide/svelte"],
+    "required": ["@lucide/svelte"],
+    "missing": [],
+    "fallbacks": []
+  },
+  "dataFlow": {
+    "loadFile": "none",
+    "reason": "Presentational mention field; the structured value arrives via props and updates flow out through onChange.",
+    "serverData": [],
+    "actions": [],
+    "invalidations": [],
+    "serialization": "json-serializable"
+  },
+  "ssr": {
+    "mode": "browser-effect",
+    "browserOnlyApis": ["ResizeObserver", "requestAnimationFrame", "document", "window", "getComputedStyle"],
+    "guards": ["browser-only measurement, focus, selection, and observer work runs in event handlers or $effect"],
+    "disabledReason": null
+  },
+  "verification": [
+    {
+      "command": "node scripts/check-port.mjs",
+      "cwd": "svelte-arcui",
+      "purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+      "status": "planned",
+      "evidence": ""
+    },
+    {
+      "command": "npx svelte-check --tsconfig ./tsconfig.json",
+      "cwd": "svelte-arcui",
+      "purpose": "svelte-check types + Svelte compile",
+      "status": "planned",
+      "evidence": ""
+    }
+  ],
+  "gaps": [
+    "Phase 1 still-port: the autosize height, anchor measurement, trigger suggestion panel, list highlight, token transition, and count/direction motion render static end-states. Anchor and panel measurement are live DOM measurements; only animated transitions are deferred.",
+    "React render-time state synchronization maps to `$effect` synchronization; `ResizeObserver` and `requestAnimationFrame` run client-only.",
+    "The imperative handle (`focus`, `insert`, `openSuggestions`, `clear`, `textarea`) is exposed through a bindable `ref`, rather than React `useImperativeHandle`.",
+    "`className` (React) maps to Svelte's `class`."
+  ]
+}

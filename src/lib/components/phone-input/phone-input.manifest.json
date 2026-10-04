@@ -1,0 +1,72 @@
+{
+  "contractVersion": "1.0",
+  "status": "still-port",
+  "source": {
+    "framework": "react",
+    "kind": "component",
+    "files": [
+      "registry/components/phone-input/phone-input.tsx",
+      "registry/components/phone-input/phone-input.module.css"
+    ],
+    "route": null,
+    "animationTier": "framer-motion"
+  },
+  "target": {
+    "kind": "component",
+    "files": [
+      "src/lib/components/phone-input/phone-input.svelte",
+      "src/lib/components/phone-input/phone-input.types.ts",
+      "src/lib/components/phone-input/phone-input.data.ts",
+      "src/lib/components/phone-input/phone-input.module.css",
+      "src/lib/components/phone-input/index.ts"
+    ],
+    "route": null,
+    "publicApi": {
+      "props": ["label", "hideLabel", "value", "defaultValue", "onValueChange", "country", "defaultCountry", "onCountryChange", "countries", "preferredCountries", "description", "error", "validate", "disabled", "required", "name", "id", "class", "onBlur"],
+      "bindings": ["value", "country", "ref"],
+      "callbacks": ["onValueChange", "onCountryChange", "onBlur"],
+      "snippets": []
+    }
+  },
+  "dependencies": {
+    "present": ["@lucide/svelte"],
+    "required": ["@lucide/svelte"],
+    "missing": [],
+    "fallbacks": []
+  },
+  "dataFlow": {
+    "loadFile": "none",
+    "reason": "Presentational phone field; country and digits arrive via props or user entry and updates flow out through onValueChange.",
+    "serverData": [],
+    "actions": [],
+    "invalidations": [],
+    "serialization": "not-applicable"
+  },
+  "ssr": {
+    "mode": "browser-effect",
+    "browserOnlyApis": ["ResizeObserver", "document", "window", "getComputedStyle"],
+    "guards": ["measurement, focus management, outside-pointer dismissal, and observers run in event handlers or $effect"],
+    "disabledReason": null
+  },
+  "verification": [
+    {
+      "command": "node scripts/check-port.mjs",
+      "cwd": "svelte-arcui",
+      "purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+      "status": "planned",
+      "evidence": ""
+    },
+    {
+      "command": "npx svelte-check --tsconfig ./tsconfig.json",
+      "cwd": "svelte-arcui",
+      "purpose": "svelte-check types + Svelte compile",
+      "status": "planned",
+      "evidence": ""
+    }
+  ],
+  "gaps": [
+    "Phase 1 still-port: the country-picker morph, flag roll, highlight glide, chevron rotation, number guide, validation icon, message-row height animation, and list/panel springs render static end states. Picker measurement and focus choreography remain live.",
+    "External controlled values are reconciled in `$effect`; imperative forwarded refs map to a bindable DOM ref and the pending-caret behavior uses a Svelte post-update effect.",
+    "`className` (React) maps to Svelte's `class`."
+  ]
+}

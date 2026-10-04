@@ -1,0 +1,77 @@
+{
+  "contractVersion": "1.0",
+  "status": "still-port",
+  "source": {
+    "framework": "react",
+    "kind": "component",
+    "files": [
+      "registry/components/shortcut-recorder/shortcut-recorder.tsx",
+      "registry/components/shortcut-recorder/shortcut-recorder.module.css"
+    ],
+    "route": null,
+    "animationTier": "framer-motion"
+  },
+  "target": {
+    "kind": "component",
+    "files": [
+      "src/lib/components/shortcut-recorder/kbd.svelte",
+      "src/lib/components/shortcut-recorder/shortcut-keys.svelte",
+      "src/lib/components/shortcut-recorder/shortcut-recorder.svelte",
+      "src/lib/components/shortcut-recorder/shortcut-list.svelte",
+      "src/lib/components/shortcut-recorder/shortcut-recorder.types.ts",
+      "src/lib/components/shortcut-recorder/shortcut-recorder.data.ts",
+      "src/lib/components/shortcut-recorder/shortcut-recorder.state.svelte.ts",
+      "src/lib/components/shortcut-recorder/shortcut-recorder.module.css",
+      "src/lib/components/shortcut-recorder/index.ts"
+    ],
+    "route": null,
+    "publicApi": {
+      "props": ["label", "hideLabel", "value", "defaultValue", "onValueChange", "resetValue", "bindings", "warnReserved", "requireModifier", "platform", "placeholder", "description", "disabled", "id", "class"],
+      "bindings": ["value"],
+      "callbacks": ["onValueChange"],
+      "snippets": ["children"]
+    }
+  },
+  "dependencies": {
+    "present": ["@lucide/svelte"],
+    "required": ["@lucide/svelte"],
+    "missing": [],
+    "fallbacks": []
+  },
+  "dataFlow": {
+    "loadFile": "none",
+    "reason": "Presentational recorder and cheatsheet; shortcut state arrives via props and updates flow out through onValueChange.",
+    "serverData": [],
+    "actions": [],
+    "invalidations": [],
+    "serialization": "not-applicable"
+  },
+  "ssr": {
+    "mode": "browser-effect",
+    "browserOnlyApis": ["document", "window", "matchMedia", "setTimeout"],
+    "guards": ["platform detection, key listeners, timers, and focus work run in event handlers or $effect"],
+    "disabledReason": null
+  },
+  "verification": [
+    {
+      "command": "node scripts/check-port.mjs",
+      "cwd": "svelte-arcui",
+      "purpose": "Per-component port gates (files, no-style, verbatim CSS, prop parity, manifest)",
+      "status": "planned",
+      "evidence": ""
+    },
+    {
+      "command": "npx svelte-check --tsconfig ./tsconfig.json",
+      "cwd": "svelte-arcui",
+      "purpose": "svelte-check types + Svelte compile",
+      "status": "planned",
+      "evidence": ""
+    }
+  ],
+  "gaps": [
+    "Phase 1 still-port: token layout animation, pressed-chip timing, message-slot height animation, reset/clear springs, list/row height animation, and recording-dot behavior beyond its reduced-motion CSS state render static end states.",
+    "React hook runtime (`usePlatform`, `usePressedKeys`, reduced-motion hydration) maps to Svelte runes state: server renders assume a Mac, and the client settles in `$effect`.",
+    "The recorder plus `Kbd`, `ShortcutKeys`, and `ShortcutList` helpers are split into sibling modules to preserve the full public API.",
+    "`className` (React) maps to Svelte's `class`."
+  ]
+}
